@@ -98,5 +98,3 @@ describe('validation rules', function () {
         ]);
     });
 });
-
-test('after creating we should return a status 201 with the created question');

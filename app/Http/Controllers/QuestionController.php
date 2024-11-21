@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\{StoreQuestionRequest, UpdateQuestionRequest};
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionController extends Controller
 {
@@ -15,8 +16,7 @@ class QuestionController extends Controller
 
     public function store(StoreQuestionRequest $request)
     {
-        $question = Question::create([
-            'user_id'  => $request->user()->id,
+        $question = Auth::user()->questions()->create([
             'question' => $request->question,
             'draft'    => true,
         ]);

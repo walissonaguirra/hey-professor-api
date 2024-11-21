@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\User;
-
+use App\Models\{Question, User};
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\{assertDatabaseHas, postJson};
@@ -97,4 +96,32 @@ describe('validation rules', function () {
             'question' => 'validation.unique',
         ]);
     });
+});
+
+test('after creating we should return a status 201 with the created question', function () {
+
+    $user = User::factory()->create();
+
+    Sanctum::actingAs($user);
+
+    $request = postJson(route('question.store'), [
+        'question' => 'Lorem ipsum Jeremias?',
+    ])->assertStatus(201);
+
+    $question = Question::latest()->first();
+
+    $request->assertJson([
+        'data' => [
+            'id'         => $question->id,
+            'question'   => $question->question,
+            'draft'      => $question->draft,
+            'created_by' => [
+                'id'   => $user->id,
+                'name' => $user->name,
+            ],
+            'created_at' => $question->created_at->format('Y-m-d H:i'),
+            'updated_at' => $question->updated_at->format('Y-m-d H:i'),
+        ],
+    ]);
+
 });

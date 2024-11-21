@@ -22,7 +22,22 @@ it('should be able to store a new question', function () {
 
 });
 
-test('with the creation of the question, we need to make sure that it creates with status _draft_');
+test('after creating new question, I need to make sure that it creates with status _draft_', function () {
+
+    $user = User::factory()->create();
+
+    Sanctum::actingAs($user);
+
+    postJson(route('question.store'), [
+        'question' => 'Lorem ipsum Jeremias?',
+    ])->assertStatus(201);
+
+    assertDatabaseHas('questions', [
+        'question' => 'Lorem ipsum Jeremias?',
+        'draft'    => true,
+    ]);
+
+});
 
 describe('validation rules', function () {
     test('question::required');

@@ -81,7 +81,22 @@ describe('validation rules', function () {
         ]);
     });
 
-    test('question::should be unique');
+    test('question::should be unique', function () {
+
+        $user = User::factory()->create();
+
+        $user->questions()->create([
+            'question' => 'Lorem ipsum jeremias?',
+        ]);
+
+        Sanctum::actingAs($user);
+
+        postJson(route('question.store'), [
+            'question' => 'Lorem ipsum jeremias?',
+        ])->assertJsonValidationErrors([
+            'question' => 'validation.unique',
+        ]);
+    });
 });
 
 test('after creating we should return a status 201 with the created question');

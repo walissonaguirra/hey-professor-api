@@ -68,7 +68,19 @@ describe('validation rules', function () {
         ]);
     });
 
-    test('question::min character should be 10');
+    test('question::min character should be 10', function () {
+
+        $user = User::factory()->create();
+
+        Sanctum::actingAs($user);
+
+        postJson(route('question.store'), [
+            'question' => str_repeat('?', 9),
+        ])->assertJsonValidationErrors([
+            'question' => 'validation.min.string',
+        ]);
+    });
+
     test('question::should be unique');
 });
 

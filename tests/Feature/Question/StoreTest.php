@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+
 use Laravel\Sanctum\Sanctum;
 
 use function Pest\Laravel\{assertDatabaseHas, postJson};
@@ -54,7 +55,19 @@ describe('validation rules', function () {
         ]);
     });
 
-    test('question::eding with question mark');
+    test('question::eding with question mark', function () {
+
+        $user = User::factory()->create();
+
+        Sanctum::actingAs($user);
+
+        postJson(route('question.store'), [
+            'question' => 'Question weihout a question mark',
+        ])->assertJsonValidationErrors([
+            'question' => 'Isso não parace uma pergunta pois não temina com \'?\'',
+        ]);
+    });
+
     test('question::min character should be 10');
     test('question::should be unique');
 });

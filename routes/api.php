@@ -1,0 +1,10 @@
+<?php
+
+use App\Http\Controllers\QuestionController;
+use Illuminate\Support\Facades\Route;
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('questions', [QuestionController::class, 'store'])->name('question.store');
+
+});

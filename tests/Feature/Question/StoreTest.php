@@ -40,7 +40,20 @@ test('after creating new question, I need to make sure that it creates with stat
 });
 
 describe('validation rules', function () {
-    test('question::required');
+
+    test('question::required', function () {
+
+        $user = User::factory()->create();
+
+        Sanctum::actingAs($user);
+
+        postJson(route('question.store'), [
+            'question' => '',
+        ])->assertJsonValidationErrors([
+            'question' => 'required',
+        ]);
+    });
+
     test('question::eding with question mark');
     test('question::min character should be 10');
     test('question::should be unique');

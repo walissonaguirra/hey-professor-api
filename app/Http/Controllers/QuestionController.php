@@ -31,7 +31,10 @@ class QuestionController extends Controller
 
     public function update(UpdateQuestionRequest $request, Question $question)
     {
-        //
+        $question->question = $request->question;
+        $question->save();
+
+        return QuestionResource::make($question);
     }
 
     public function destroy(Question $question)

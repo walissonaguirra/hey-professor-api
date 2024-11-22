@@ -6,5 +6,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('questions', [QuestionController::class, 'store'])->name('question.store');
+    Route::put('questions/{question}', [QuestionController::class, 'update'])->name('question.update');
 
 });

@@ -83,3 +83,23 @@ describe('validation rules', function () {
         ])->assertStatus(200);
     });
 });
+
+describe('security', function () {
+    test('only the person who create the question can update the seme question', function () {
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+
+        $question = Question::factory()->create(['user_id' => $user2->id]);
+
+        Sanctum::actingAs($user1);
+
+        putJson(route('question.update', $question), [
+            'question' => 'update question?',
+        ])->assertForbidden();
+
+        assertDatabaseHas('questions', [
+            'id'       => $question->id,
+            'question' => $question->question,
+        ]);
+    });
+});

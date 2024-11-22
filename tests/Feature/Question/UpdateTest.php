@@ -122,3 +122,30 @@ describe('security', function () {
         ]);
     });
 });
+
+test('after creating we should return a status 200 with the created question', function () {
+    $user     = User::factory()->create();
+    $question = Question::factory()->create(['user_id' => $user->id]);
+
+    Sanctum::actingAs($user);
+
+    $request = putJson(route('question.update', $question), [
+        'question' => 'Updated question?',
+    ])->assertStatus(200);
+
+    $question = Question::latest()->first();
+
+    $request->assertJson([
+        'data' => [
+            'id'         => $question->id,
+            'question'   => $question->question,
+            'draft'      => $question->draft,
+            'created_by' => [
+                'id'   => $user->id,
+                'name' => $user->name,
+            ],
+            'created_at' => $question->created_at->format('Y-m-d H:i'),
+            'updated_at' => $question->updated_at->format('Y-m-d H:i'),
+        ],
+    ]);
+});

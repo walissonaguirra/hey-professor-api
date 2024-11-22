@@ -69,7 +69,7 @@ describe('validation rules', function () {
         ]);
     });
 
-    test('question::should be unique', function () {
+    test('question::should be unique only if id is different', function () {
 
         $user     = User::factory()->create();
         $question = $user->questions()->create([
@@ -81,6 +81,25 @@ describe('validation rules', function () {
         putJson(route('question.update', $question), [
             'question' => 'Lorem ipsum jeremias?',
         ])->assertStatus(200);
+    });
+
+    test('question::should be able to edit only if status is draft', function () {
+        $user     = User::factory()->create();
+        $question = Question::factory()->create(['user_id' => $user->id, 'draft' => false]);
+
+        Sanctum::actingAs($user);
+
+        putJson(route('question.update', $question), [
+            'question' => 'Updated question?',
+        ])->assertJsonValidationErrors([
+            'question' => 'A pergunta percisa ter o statos draft para ser editada',
+        ]);
+
+        assertDatabaseHas('questions', [
+            'id'       => $question->id,
+            'question' => $question->question,
+            'draft'    => false,
+        ]);
     });
 });
 

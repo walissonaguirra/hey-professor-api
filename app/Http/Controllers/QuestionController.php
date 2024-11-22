@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\{StoreQuestionRequest, UpdateQuestionRequest};
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\{Auth, Gate};
 
 class QuestionController extends Controller
 {
@@ -39,6 +39,8 @@ class QuestionController extends Controller
 
     public function destroy(Question $question)
     {
+        Gate::authorize('forceDelete', $question);
+
         $question->forceDelete();
 
         return response()->noContent();

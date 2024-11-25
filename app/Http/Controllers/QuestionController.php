@@ -54,4 +54,12 @@ class QuestionController extends Controller
 
         return response()->noContent();
     }
+
+    public function restore(int $id)
+    {
+        $question = Question::onlyTrashed()->findOrFail($id);
+        $question->restore();
+
+        return response()->noContent();
+    }
 }

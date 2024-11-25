@@ -45,4 +45,11 @@ class QuestionController extends Controller
 
         return response()->noContent();
     }
+
+    public function archive(Question $question)
+    {
+        $question->delete();
+
+        return response()->noContent();
+    }
 }

@@ -48,6 +48,8 @@ class QuestionController extends Controller
 
     public function archive(Question $question)
     {
+        Gate::authorize('archive', $question);
+
         $question->delete();
 
         return response()->noContent();

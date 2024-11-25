@@ -10,11 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class QuestionController extends Controller
 {
-    public function index()
-    {
-        //
-    }
-
     public function store(StoreQuestionRequest $request)
     {
         $question = Auth::user()->questions()->create([
@@ -23,11 +18,6 @@ class QuestionController extends Controller
         ]);
 
         return QuestionResource::make($question);
-    }
-
-    public function show(Question $question)
-    {
-        //
     }
 
     public function update(UpdateQuestionRequest $request, Question $question)

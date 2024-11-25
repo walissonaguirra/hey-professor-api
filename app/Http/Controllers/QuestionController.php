@@ -58,6 +58,9 @@ class QuestionController extends Controller
     public function restore(int $id)
     {
         $question = Question::onlyTrashed()->findOrFail($id);
+
+        Gate::authorize('restore', $question);
+
         $question->restore();
 
         return response()->noContent();

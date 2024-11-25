@@ -65,4 +65,11 @@ class QuestionController extends Controller
 
         return response()->noContent();
     }
+
+    public function publish(Question $question)
+    {
+        $question->update(['draft' => false]);
+
+        return response()->noContent();
+    }
 }

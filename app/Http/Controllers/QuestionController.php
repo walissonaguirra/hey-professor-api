@@ -6,6 +6,7 @@ use App\Http\Requests\{StoreQuestionRequest, UpdateQuestionRequest};
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
 use Illuminate\Support\Facades\{Auth, Gate};
+use Symfony\Component\HttpFoundation\Response;
 
 class QuestionController extends Controller
 {
@@ -68,6 +69,8 @@ class QuestionController extends Controller
 
     public function publish(Question $question)
     {
+        abort_if($question->draft == false, Response::HTTP_NOT_FOUND);
+
         Gate::authorize('publish', $question);
 
         $question->update(['draft' => false]);

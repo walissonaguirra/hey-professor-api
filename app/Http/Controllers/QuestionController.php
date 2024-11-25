@@ -68,6 +68,8 @@ class QuestionController extends Controller
 
     public function publish(Question $question)
     {
+        Gate::authorize('publish', $question);
+
         $question->update(['draft' => false]);
 
         return response()->noContent();

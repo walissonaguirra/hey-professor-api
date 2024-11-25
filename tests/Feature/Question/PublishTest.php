@@ -28,11 +28,6 @@ it('should allow that only creator can publish question', function () {
     $user2    = User::factory()->create();
     $question = Question::factory()->for($user1)->create(['draft' => true]);
 
-    assertDatabaseHas('questions', [
-        'id'    => $question->id,
-        'draft' => true,
-    ]);
-
     Sanctum::actingAs($user2);
 
     putJson(route('question.publish', $question))
@@ -43,7 +38,7 @@ it('should allow that only creator can publish question', function () {
         'draft' => true,
     ]);
 
-})->todo();
+});
 
 it('should only publish when the question is on status draft', function () {
 

@@ -21,6 +21,6 @@ it('should be able to register in the application', function () {
 
     $johnDoe = User::whereEmail('john@doe.com')->first();
 
-    assertTrue(Hash::check('password', $johnDoe->email));
+    assertTrue(Hash::check('password', $johnDoe->password));
 
 });

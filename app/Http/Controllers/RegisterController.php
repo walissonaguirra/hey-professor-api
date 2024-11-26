@@ -10,7 +10,13 @@ class RegisterController extends Controller
 {
     public function __invoke(Request $req)
     {
-        $user = User::create($req->input());
+        $data = $req->validate([
+            'name'     => ['required', 'min:3', 'max:255'],
+            'email'    => ['required', 'min:3', 'max:255', 'email', 'unique:users'],
+            'password' => ['required', 'min:8', 'max:40'],
+        ]);
+
+        $user = User::create($data);
 
         Auth::login($user);
     }

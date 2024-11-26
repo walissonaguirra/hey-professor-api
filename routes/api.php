@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\{LogoutController, QuestionController, RegisterController};
+use App\Http\Controllers\Auth\{LogoutController, RegisterController};
+use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('register', RegisterController::class)->name('register');

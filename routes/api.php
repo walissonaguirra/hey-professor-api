@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\{QuestionController, RegisterController};
+use App\Http\Controllers\{LogoutController, QuestionController, RegisterController};
 use Illuminate\Support\Facades\Route;
 
 Route::post('register', RegisterController::class)->name('register');
 Route::post('login', LoginController::class)->name('login');
+
+Route::middleware(['web', 'auth'])->post('logout', LogoutController::class)->name('logout');
 
 Route::middleware('auth:sanctum')->group(function () {
 

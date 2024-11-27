@@ -12,7 +12,10 @@ class QuestionController extends Controller
 {
     public function index()
     {
-        $questions = Question::where('draft', false)->get();
+        $questions = Question::query()
+            ->published()
+            ->search(request()->q)
+            ->get();
 
         return QuestionResource::collection($questions);
     }

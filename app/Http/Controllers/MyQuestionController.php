@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\QuestionResource;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,8 +24,8 @@ class MyQuestionController extends Controller
             ->questions()
             ->when(
                 $req->status == 'archived',
-                fn ($q) => $q->onlyTrashed(),
-                fn ($q) => $q->where('draft', $req->status != 'published')
+                fn (Builder $q) => $q->onlyTrashed(),
+                fn (Builder $q) => $q->where('draft', $req->status != 'published')
             )
             ->get();
 

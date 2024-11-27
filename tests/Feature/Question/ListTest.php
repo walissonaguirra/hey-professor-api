@@ -29,3 +29,17 @@ it('should be able to list only publihed questions', function () {
     ]);
 
 });
+
+it('should be able to search for a question', function () {
+
+    Sanctum::actingAs(User::factory()->create());
+
+    Question::factory()->published()->create(['question' => 'First question?']);
+    Question::factory()->published()->create(['question' => 'Secondary question?']);
+
+    getJson(route('question.index', ['q' => 'first']))
+        ->assertOk()
+        ->assertJsonFragment(['question' => 'First question?'])
+        ->assertJsonMissing(['question' => 'Secondary question?']);
+
+});

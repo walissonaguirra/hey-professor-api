@@ -25,7 +25,6 @@ it('should be able to list only publihed questions', function () {
         'created_at' => $publish->created_at->format('Y-m-d H:i'),
         'updated_at' => $publish->updated_at->format('Y-m-d H:i'),
     ])->assertJsonMissing([
-        'id'       => $draft->id,
         'question' => $draft->question,
     ]);
 

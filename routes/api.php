@@ -13,6 +13,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['web', 'auth'])->post('logout', LogoutController::class)->name('logout');
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('questions', [QuestionController::class, 'index'])->name('question.index');
     Route::post('questions', [QuestionController::class, 'store'])->name('question.store');
     Route::put('questions/{question}', [QuestionController::class, 'update'])->name('question.update');
     Route::delete('questions/{question}', [QuestionController::class, 'destroy'])->name('question.delete');

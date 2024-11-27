@@ -10,6 +10,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class QuestionController extends Controller
 {
+    public function index()
+    {
+        $questions = Question::where('draft', false)->get();
+
+        return QuestionResource::collection($questions);
+    }
+
     public function store(StoreQuestionRequest $request)
     {
         $question = Auth::user()->questions()->create([

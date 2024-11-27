@@ -2,23 +2,31 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Question>
- */
 class QuestionFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
             'question' => fake()->sentence() . '?',
             'draft'    => true,
+            'user_id'  => User::factory(),
         ];
+    }
+
+    public function published(): Factory
+    {
+        return $this->state(fn (array $attributes) => [
+            'draft' => false,
+        ]);
+    }
+
+    public function draft(): Factory
+    {
+        return $this->state(fn (array $attributes) => [
+            'draft' => true,
+        ]);
     }
 }

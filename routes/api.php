@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\{LogoutController, RegisterController};
-use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\{MyQuestionController, QuestionController};
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -13,6 +13,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['web', 'auth'])->post('logout', LogoutController::class)->name('logout');
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('my-questions/{status}', MyQuestionController::class)->name('my-questions');
+
     Route::get('questions', [QuestionController::class, 'index'])->name('question.index');
     Route::post('questions', [QuestionController::class, 'store'])->name('question.store');
     Route::put('questions/{question}', [QuestionController::class, 'update'])->name('question.update');

@@ -16,17 +16,24 @@ class QuestionFactory extends Factory
         ];
     }
 
-    public function published(): Factory
+    public function published(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn () => [
             'draft' => false,
         ]);
     }
 
-    public function draft(): Factory
+    public function draft(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn () => [
             'draft' => true,
+        ]);
+    }
+
+    public function archived(): static
+    {
+        return $this->state(fn () => [
+            'deleted_at' => fake()->dateTime,
         ]);
     }
 }

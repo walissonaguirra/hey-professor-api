@@ -22,4 +22,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('questions/{question}/archive', [QuestionController::class, 'archive'])->name('question.archive');
     Route::put('questions/{question}/restore', [QuestionController::class, 'restore'])->name('question.restore');
     Route::put('questions/{question}/publish', [QuestionController::class, 'publish'])->name('question.publish');
+    Route::get('questions/export', [QuestionController::class, 'export'])->name('question.export');
 });

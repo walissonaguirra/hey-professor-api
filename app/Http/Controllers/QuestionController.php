@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\QuestionExport;
 use App\Http\Requests\{StoreQuestionRequest, UpdateQuestionRequest};
 use App\Http\Resources\QuestionResource;
 use App\Models\Question;
 use Illuminate\Support\Facades\{Auth, Gate};
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response;
 
 class QuestionController extends Controller
@@ -76,5 +78,10 @@ class QuestionController extends Controller
         $question->update(['draft' => false]);
 
         return response()->noContent();
+    }
+
+    public function export()
+    {
+        return Excel::download(new QuestionExport, 'questions.xlsx');
     }
 }
